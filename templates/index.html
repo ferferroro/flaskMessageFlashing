@@ -7,11 +7,16 @@
             <h1 class="display-5">Flask Message Flashing</h1>
         </div>
 
-        {% if message %}
-            <div class="{{ css_class }}" role="alert">
-                {{ message }}
-            </div>
-        {% endif %}
+        {% with errors = get_flashed_messages(category_filter=['alert alert-danger'])%}
+            {% if errors %}
+                {% for message in errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
         <form method="POST" action=""> 
             <div class="form-group">
               <label>Field 1</label>
@@ -31,5 +36,15 @@
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
           </form>
+
+        {% with valids = get_flashed_messages(category_filter=['alert alert-success'])%}
+            {% if valids %}
+                {% for message in valids %}
+                    <div class="alert alert-success" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
     </div>
 {% endblock %}
